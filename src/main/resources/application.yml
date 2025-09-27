@@ -1,0 +1,62 @@
+server:
+  port: 3001
+
+spring:
+  application:
+    name: products-inventory
+  
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb+srv://admin_123:nhRb9NllTbzdEhuc@neweraproducts.wige5q7.mongodb.net/productsInventory?retryWrites=true&w=majority&appName=NewEraProducts}
+      database: productsInventory
+  
+  profiles:
+    active: ${NODE_ENV:development}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    com.newera.products: DEBUG
+    org.springframework.data.mongodb: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+---
+# Development Profile
+spring:
+  config:
+    activate:
+      on-profile: development
+  
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb+srv://admin_123:nhRb9NllTbzdEhuc@neweraproducts.wige5q7.mongodb.net/productsInventory?retryWrites=true&w=majority&appName=NewEraProducts}
+
+logging:
+  level:
+    root: INFO
+    com.newera.products: DEBUG
+
+---
+# Production Profile
+spring:
+  config:
+    activate:
+      on-profile: production
+  
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb+srv://admin_123:nhRb9NllTbzdEhuc@neweraproducts.wige5q7.mongodb.net/productsInventory?retryWrites=true&w=majority&appName=NewEraProducts}
+
+logging:
+  level:
+    root: WARN
+    com.newera.products: INFO

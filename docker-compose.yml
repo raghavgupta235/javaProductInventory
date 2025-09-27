@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  products-inventory:
+    build: .
+    ports:
+      - "3001:3001"
+    environment:
+      - MONGODB_URI=mongodb+srv://admin_123:nhRb9NllTbzdEhuc@neweraproducts.wige5q7.mongodb.net/productsInventory?retryWrites=true&w=majority&appName=NewEraProducts
+      - NODE_ENV=production
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo:7.0
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=productsInventory
+    volumes:
+      - mongodb_data:/data/db
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:
